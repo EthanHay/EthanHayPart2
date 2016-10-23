@@ -20,177 +20,23 @@ public class initGame {
     public static void startGameLoop(int dealer) {
         int startingPoint = dealer + 1;
         int playerID = startingPoint;
-        ArrayList currentCards, currentCard, card;
+        //ArrayList currentCards, currentCard, card;
+        boolean isWinner = false;
 
-        if (hasCards(startingPoint)) {
-            //play first card in hand
-            currentCards = (ArrayList) initPlayer.getPlayerCards(dealer);
-            currentCard = (ArrayList) currentCards.toArray()[0];
-            card = (ArrayList) currentCard.toArray()[0];
-            System.out.println("PLAYER "+dealer);
-            try {
-                System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-            } catch(ArrayIndexOutOfBoundsException e) {
-                System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-            }
-
-            currentCard.remove(0);
-        }
-        for (int i = 0; i < 99999; i++) {
-            switch (playerID) {
-                case 0:
-                    if (hasCards(0)) {
-                        currentCards = (ArrayList) initPlayer.getPlayerCards(0);
-                        currentCard = (ArrayList) currentCards.toArray()[0];
-                        try {
-                            card = (ArrayList) currentCard.toArray()[0];
-                            System.out.println("PLAYER "+ playerID);
-                            try {
-                                System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-                            } catch(ArrayIndexOutOfBoundsException e) {
-
-                                try {
-                                    System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                                } catch(ArrayIndexOutOfBoundsException f) {
-                                    System.out.println("player " + playerID + " Skipped");
-                                    playerID = 1;
-                                    break;
-                                }
-                            }
-                        } catch (ArrayIndexOutOfBoundsException g) {
-                            System.out.println("Winner Winner Chicken Dinner");
-                            playerID = 5;
-                            break;
-                        }
-                        currentCard.remove(0);
-                        playerID = 1;
-                        break;
+        while(!isWinner){
+            startingPoint = playerID;
+            for(int i = 0; i <numOfPlayers; i++){
+                if (!isWinner) {
+                    System.out.println("i = " + i);
+                    isWinner = playHand(startingPoint);
+                    if (startingPoint == 4) {
+                        startingPoint = 0;
+                    } else {
+                        startingPoint++;
                     }
-                    System.out.println("Winner Winner Chicken Dinner");
-                    playerID = 5;
-                    break;
-                case 1:
-                    if (hasCards(1)) {
-                        currentCards = (ArrayList) initPlayer.getPlayerCards(1);
-                        currentCard = (ArrayList) currentCards.toArray()[0];
-                        try {
-                            card = (ArrayList) currentCard.toArray()[0];
-                            System.out.println("PLAYER " + playerID);
-                            try {
-                                System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-                            } catch (ArrayIndexOutOfBoundsException e) {
-                                try {
-                                    System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                                } catch (ArrayIndexOutOfBoundsException f) {
-                                    System.out.println("player " + playerID + " Skipped");
-                                    playerID = 2;
-                                    break;
-                                }
-                            }
-                        } catch (ArrayIndexOutOfBoundsException g) {
-                            System.out.println("Winner Winner Chicken Dinner");
-                            playerID = 5;
-                            break;
-                        }
-                        currentCard.remove(0);
-                        playerID = 2;
-                        break;
-                    }
-                    System.out.println("Winner Winner Chicken Dinner");
-                    playerID = 5;
-                    break;
-                case 2:
-                    if (hasCards(2)) {
-                        currentCards = (ArrayList) initPlayer.getPlayerCards(2);
-                        currentCard = (ArrayList) currentCards.toArray()[0];
-                        try {
-                            card = (ArrayList) currentCard.toArray()[0];
-                            System.out.println("PLAYER "+ playerID);
-                            try {
-                                System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-                            } catch(ArrayIndexOutOfBoundsException e) {
-                                try {
-                                    System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                                } catch(ArrayIndexOutOfBoundsException f) {
-                                    System.out.println("player " + playerID + " Skipped");
-                                    playerID = 3;
-                                    break;
-                                }
-                            }
-                        } catch (ArrayIndexOutOfBoundsException g) {
-                            System.out.println("Winner Winner Chicken Dinner");
-                            playerID = 5;
-                            break;
-                        }
-                        currentCard.remove(0);
-                        playerID = 3;
-                        break;
-                    }
-                    System.out.println("Winner Winner Chicken Dinner");
-                    playerID = 5;
-                    break;
-                case 3:
-                    if (hasCards(3)) {
-                        currentCards = (ArrayList) initPlayer.getPlayerCards(3);
-                        currentCard = (ArrayList) currentCards.toArray()[0];
-                        try {
-                            card = (ArrayList) currentCard.toArray()[0];
-                            System.out.println("PLAYER "+ playerID);
-                            try {
-                                System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-                            } catch(ArrayIndexOutOfBoundsException e) {
-                                try {
-                                    System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                                } catch(ArrayIndexOutOfBoundsException f) {
-                                    System.out.println("player " + playerID + " Skipped");
-                                    playerID = 4;
-                                    break;
-                                }
-                            }
-                        } catch (ArrayIndexOutOfBoundsException g) {
-                            System.out.println("Winner Winner Chicken Dinner");
-                            playerID = 5;
-                            break;
-                        }
-                        currentCard.remove(0);
-                        playerID = 4;
-                        break;
-                    }
-                    System.out.println("Winner Winner Chicken Dinner");
-                    playerID = 5;
-                    break;
-                case 4:
-                    if (hasCards(4)) {
-                        currentCards = (ArrayList) initPlayer.getPlayerCards(4);
-                        currentCard = (ArrayList) currentCards.toArray()[0];
-                        try {
-                            card = (ArrayList) currentCard.toArray()[0];
-                            System.out.println("PLAYER 5");
-                            try {
-                                System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-                            } catch(ArrayIndexOutOfBoundsException e) {
-                                try {
-                                    System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                                } catch(ArrayIndexOutOfBoundsException f) {
-                                    System.out.println("player " + playerID + " Skipped");
-                                    playerID = 0;
-                                    break;
-                                }
-                            }
-                        } catch (ArrayIndexOutOfBoundsException g) {
-                            System.out.println("Winner Winner Chicken Dinner");
-                            playerID = 5;
-                            break;
-                        }
-                        currentCard.remove(0);
-                        playerID = 0;
-                        break;
-                    }
-                    System.out.println("Winner Winner Chicken Dinner");
-                    playerID = 5;
-                    break;
-                case 5:
-                    i = 99999;
+                } else {
+                    System.out.println("We have a winner");
+                }
             }
 
         }
@@ -228,7 +74,7 @@ public class initGame {
         return new Random().nextInt(numPlayers);
     }
 
-    public static int playHand(int playerID) {
+    public static boolean playHand(int playerID) {
         ArrayList currentCards, currentCard, card;
 
 
@@ -246,21 +92,19 @@ public class initGame {
                         System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
                     } catch(ArrayIndexOutOfBoundsException f) {
                         System.out.println("Player " + playerID + " Skipped");
-                        playerID = 1;
+                        return false;
                     }
                 }
             } catch (ArrayIndexOutOfBoundsException g) {
                 System.out.println("Winner Winner Chicken Dinner");
-                playerID = 5;
+                return true;
             }
             currentCard.remove(0);
-            playerID = 1;
+            return false;
         } else {
             System.out.println("Winner Winner Chicken Dinner");
-            playerID = 5;
+            return true;
         }
-
-        return 0;
     }
 
     public static ArrayList<initCard> dealCards() {
