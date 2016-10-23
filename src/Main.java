@@ -44,6 +44,7 @@ public class Main {
         System.out.println("Finished building...");
         System.out.println("");
         getNumberOfBots();
+//        numOfPlayers = 5;
         System.out.println("");
         System.out.println("");
         System.out.println("Selecting dealer...");
