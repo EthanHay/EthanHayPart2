@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,24 +9,26 @@ import java.util.Random;
 * Class that initialises all values for a new game
  */
 public class initGame {
-    private static ArrayList deck;
+    private static ArrayList deck, playedHand;
     private static int NUM_OF_CARDS_DEALT = 8;
-    private static int numOfPlayers;
+    private static int numOfPlayers, dealerIndex;
 
     public initGame(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
         createPlayers(numOfPlayers);
     }
 
-    public static void startGameLoop(int dealer) {
-        int startingPoint = dealer + 1;
+    public static void startGameLoop() {
+        int startingPoint = dealerIndex + 1;
         int playerID = startingPoint;
         //ArrayList currentCards, currentCard, card;
         boolean isWinner = false;
 
-        while(!isWinner){
+        while (!isWinner) {
+            playedHand = new ArrayList();
             startingPoint = playerID;
-            for(int i = 0; i <numOfPlayers; i++){
+            for (int i = 0; i < numOfPlayers; i++) {
+
                 if (!isWinner) {
                     System.out.println("i = " + i);
                     isWinner = playHand(startingPoint);
@@ -36,12 +39,58 @@ public class initGame {
                     }
                 } else {
                     System.out.println("We have a winner");
+                    i = numOfPlayers; //forces for loop to close
                 }
             }
 
         }
         System.out.println("Outside Loop");
     }
+
+    public static boolean playHand(int playerID) {
+        ArrayList currentCards, currentCard, card;
+        card = new ArrayList();
+
+        if (hasCards(playerID)) {
+            if (!(playerID == 0)) {
+                currentCards = (ArrayList) initPlayer.getPlayerCards(playerID);
+                currentCard = (ArrayList) currentCards.toArray()[0];
+                try {
+                    card = (ArrayList) currentCard.toArray()[0];
+                    String temp = card.toArray()[0].toString();
+                    playedHand.add(temp);
+                    System.out.println("PLAYER " + playerID);
+                    try {
+                        System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
+
+                    } catch (ArrayIndexOutOfBoundsException e) {
+
+                        try {
+                            System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
+                        } catch (ArrayIndexOutOfBoundsException f) {
+                            System.out.println("Player " + playerID + " Skipped");
+                            return false;
+                        }
+                    }
+                } catch (ArrayIndexOutOfBoundsException g) {
+                    JOptionPane.showConfirmDialog(null, "Player " + playerID + "WON!");
+                    System.out.println("Winner Winner Chicken Dinner");
+                    return true;
+                }
+                currentCard.remove(0);
+                return false;
+            } else {
+                JOptionPane.showConfirmDialog(null, "Select a card to play");
+                playedHand.add(card.toArray()[0]);
+                return false;
+            }
+        } else {
+            JOptionPane.showConfirmDialog(null, "Player "+ playerID + "WON!");
+            System.out.println("Winner Winner Chicken Dinner");
+            return true;
+        }
+    }
+
 
     private static boolean hasCards(int playerID) {
         ArrayList temp = (ArrayList) initPlayer.getPlayerCards(0);
@@ -60,10 +109,6 @@ public class initGame {
         return true;
     }
 
-    public static class startGame {
-        //loop material here, most of game logic
-    }
-
     public static ArrayList<initCard> buildDeck() {
         deck = new initDeck().initDeck();
         return deck;
@@ -71,55 +116,19 @@ public class initGame {
 
     public static int selectDealer(int numPlayers) {
         numOfPlayers = numPlayers;
-        return new Random().nextInt(numPlayers);
-    }
-
-    public static boolean playHand(int playerID) {
-        ArrayList currentCards, currentCard, card;
-
-
-        if (hasCards(playerID)) {
-            currentCards = (ArrayList) initPlayer.getPlayerCards(playerID);
-            currentCard = (ArrayList) currentCards.toArray()[0];
-            try {
-                card = (ArrayList) currentCard.toArray()[0];
-                System.out.println("PLAYER "+ playerID);
-                try {
-                    System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-                } catch(ArrayIndexOutOfBoundsException e) {
-
-                    try {
-                        System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                    } catch(ArrayIndexOutOfBoundsException f) {
-                        System.out.println("Player " + playerID + " Skipped");
-                        return false;
-                    }
-                }
-            } catch (ArrayIndexOutOfBoundsException g) {
-                System.out.println("Winner Winner Chicken Dinner");
-                return true;
-            }
-            currentCard.remove(0);
-            return false;
-        } else {
-            System.out.println("Winner Winner Chicken Dinner");
-            return true;
-        }
+        dealerIndex = new Random().nextInt(numPlayers);
+        return dealerIndex;
     }
 
     public static ArrayList<initCard> dealCards() {
         ArrayList ret = new ArrayList();
-        //System.out.println(deck);
 
         for (int i = 0; i < NUM_OF_CARDS_DEALT; i++) {
             int index = new Random().nextInt(deck.size());
             ArrayList temp = (ArrayList) deck.toArray()[index];
             ret.add(temp);
             deck.remove(index);
-            //System.out.print("\n Card Removed \n Cards left: " + deck.size()+ "\n");
         }
-
-
         return ret;
     }
 
