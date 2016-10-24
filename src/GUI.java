@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -23,11 +24,16 @@ public class GUI extends JFrame implements ActionListener {
     JLabel menuTitle = new JLabel("Mineral SuperTrump");
     JLabel menuIntro = new JLabel("Welcome to Mineral SuperTrump!");
     JButton startButton = new JButton("Start Game");
+    JButton howToPlayButton = new JButton("How To Play");
     JButton exitButton = new JButton("Exit");
 
     //game screen
     JLabel gameIntro = new JLabel("Select the card you wish to play.");
     JLabel test = new JLabel(new ImageIcon("images/Slide01"));
+    JLabel cardLabel0 = new JLabel();
+    JLabel cardLabel1 = new JLabel();
+    JLabel cardLabel2 = new JLabel();
+    JLabel cardLabel3 = new JLabel();
     JButton cardButton0 = new JButton();
     JButton cardButton1 = new JButton();
     JButton cardButton2 = new JButton();
@@ -63,6 +69,7 @@ public class GUI extends JFrame implements ActionListener {
         panel1.add(menuTitle);
         panel1.add(menuIntro);
         panel2.add(startButton);
+        panel2.add(howToPlayButton);
         panel3.add(exitButton);
 
         add(panel1);
@@ -72,6 +79,7 @@ public class GUI extends JFrame implements ActionListener {
 
         //add listeners
         startButton.addActionListener(this);
+        howToPlayButton.addActionListener(this);
         exitButton.addActionListener(this);
 
         setLocationRelativeTo(null);
@@ -107,24 +115,31 @@ public class GUI extends JFrame implements ActionListener {
                         break;
                     case 1:
                         cardButton1.setIcon(new ImageIcon(newimg));
+                        cardButton1.setSize(10,20);
                         break;
                     case 2:
                         cardButton2.setIcon(new ImageIcon(newimg));
+                        cardButton2.setSize(10,20);
                         break;
                     case 3:
                         cardButton3.setIcon(new ImageIcon(newimg));
+                        cardButton3.setSize(10,20);
                         break;
                     case 4:
                         cardButton4.setIcon(new ImageIcon(newimg));
+                        cardButton4.setSize(10,20);
                         break;
                     case 5:
                         cardButton5.setIcon(new ImageIcon(newimg));
+                        cardButton5.setSize(10,20);
                         break;
                     case 6:
                         cardButton6.setIcon(new ImageIcon(newimg));
+                        cardButton6.setSize(10,20);
                         break;
                     case 7:
                         cardButton7.setIcon(new ImageIcon(newimg));
+                        cardButton7.setSize(10,20);
                         break;
 
                 }
@@ -182,6 +197,77 @@ public class GUI extends JFrame implements ActionListener {
             //force close
             dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
+        if (e.getSource() == howToPlayButton) {
+            dispose();
+            GUI howToPlayGUI = new GUI();
+            howToPlayGUI.createHTPGUI();
+            howToPlayGUI.setTitle("Mineral SuperTrump - Ethan Hay");
+            howToPlayGUI.setVisible(true);
+
+        }
+    }
+
+    private void createHTPGUI() {
+        setSize(WIDTH, HEIGHT);
+        setLayout(new GridLayout(3,2));
+
+        //edit elements
+        menuTitle.setFont(titleFont);
+        menuTitle.setHorizontalAlignment(JLabel.CENTER);
+//        gameIntro.setFont(subtitleFont);
+//        gameIntro.setHorizontalAlignment(JLabel.CENTER);
+//        gameIntro.setVerticalAlignment(SwingConstants.BOTTOM);
+//        panel1.setLayout(new GridLayout(1,1));
+        panel1.setSize(WIDTH, 200);
+        panel2.setLayout(new GridLayout(1,2));
+        panel3.setLayout(new GridLayout(1,2));
+
+        try {
+            for(int i = 61; i< 65 ; i++) {
+                Image img = ImageIO.read(getClass().getResource("images/Slide" + i+".jpg"));
+                Image newimg = img.getScaledInstance( 220, 300,  java.awt.Image.SCALE_SMOOTH ) ;
+                switch(i) {
+                    case 61:
+                        cardLabel0.setIcon(new ImageIcon(newimg));
+                        break;
+                    case 62:
+                        cardLabel1.setIcon(new ImageIcon(newimg));
+                        break;
+                    case 63:
+                        cardLabel2.setIcon(new ImageIcon(newimg));
+                        break;
+                    case 64:
+                        cardLabel3.setIcon(new ImageIcon(newimg));
+                        break;
+                }
+
+            }
+        } catch (IOException ex){
+
+        }
+
+        //add elements
+
+        panel1.add(menuTitle);
+//        panel1.add(gameIntro);
+        panel2.add(cardLabel0);
+        panel2.add(cardLabel1);
+        panel3.add(cardLabel2);
+        panel3.add(cardLabel3);
+        //panel4.add(exitButton);
+
+        add(panel1);
+        add(panel2);
+        add(panel3);
+        //add(panel4);
+
+
+        //add listeners
+        //startButton.addActionListener(this);
+        //exitButton.addActionListener(this);
+
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
 

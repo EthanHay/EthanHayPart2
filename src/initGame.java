@@ -41,6 +41,7 @@ public class initGame {
                     System.out.println("We have a winner");
                     i = numOfPlayers; //forces for loop to close
                 }
+
             }
 
         }
@@ -52,44 +53,53 @@ public class initGame {
         card = new ArrayList();
 
         if (hasCards(playerID)) {
-            if (!(playerID == 0)) {
-                currentCards = (ArrayList) initPlayer.getPlayerCards(playerID);
-                currentCard = (ArrayList) currentCards.toArray()[0];
-                try {
-                    card = (ArrayList) currentCard.toArray()[0];
-                    String temp = card.toArray()[0].toString();
-                    playedHand.add(temp);
-                    System.out.println("PLAYER " + playerID);
+            currentCards = (ArrayList) initPlayer.getPlayerCards(playerID);
+            currentCard = (ArrayList) currentCards.toArray()[0];
+
+            try {
+                card = (ArrayList) currentCard.toArray()[0];
+                if (!(playerID == 0)) {
+
                     try {
-                        System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
-
-                    } catch (ArrayIndexOutOfBoundsException e) {
-
+                        card = (ArrayList) currentCard.toArray()[0];
+                        String temp = card.toArray()[0].toString();
+                        playedHand.add(temp);
+                        System.out.println("PLAYER " + playerID);
                         try {
-                            System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
-                        } catch (ArrayIndexOutOfBoundsException f) {
-                            System.out.println("Player " + playerID + " Skipped");
-                            return false;
+                            System.out.println("CARD PLAYED: " + card.toArray()[3] + "  Economic Value: " + card.toArray()[12]);
+
+                        } catch (ArrayIndexOutOfBoundsException e) {
+
+                            try {
+                                System.out.println("CARD PLAYED: TRUMP: " + card.toArray()[3]);
+                            } catch (ArrayIndexOutOfBoundsException f) {
+                                System.out.println("Player " + playerID + " Skipped");
+                                return false;
+                            }
                         }
+                    } catch (ArrayIndexOutOfBoundsException g) {
+                        JOptionPane.showConfirmDialog(null, "Player " + playerID + "WON!");
+                        System.out.println("Winner Winner Chicken Dinner");
+                        return true;
                     }
-                } catch (ArrayIndexOutOfBoundsException g) {
-                    JOptionPane.showConfirmDialog(null, "Player " + playerID + "WON!");
-                    System.out.println("Winner Winner Chicken Dinner");
-                    return true;
+                    currentCard.remove(0);
+                    return false;
+                } else {
+                    JOptionPane.showConfirmDialog(null, "Select a card to play");
+                    playedHand.add(card.toArray()[0]);
+                    currentCard.remove(0);
+                    return false;
                 }
-                currentCard.remove(0);
-                return false;
-            } else {
-                JOptionPane.showConfirmDialog(null, "Select a card to play");
-                playedHand.add(card.toArray()[0]);
-                return false;
+            } catch(ArrayIndexOutOfBoundsException h) {
+                return true;
             }
-        } else {
-            JOptionPane.showConfirmDialog(null, "Player "+ playerID + "WON!");
-            System.out.println("Winner Winner Chicken Dinner");
-            return true;
-        }
+            } else{
+                JOptionPane.showConfirmDialog(null, "Player " + playerID + "WON!");
+                System.out.println("Winner Winner Chicken Dinner");
+                return true;
+            }
     }
+
 
 
     private static boolean hasCards(int playerID) {
